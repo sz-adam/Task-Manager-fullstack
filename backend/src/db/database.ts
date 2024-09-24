@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'in-progress')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`;
 
 db.exec(createTable);
