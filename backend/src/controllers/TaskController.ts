@@ -45,11 +45,28 @@ export const updateTask = (req: Request, res: Response) => {
       id: Number(id), // id-t számmá konvertáljuk
       title,
       description,
-      status, 
+      status,
       created_at: new Date(),
     };
     res.json(updatedTask);
   } else {
+    res.status(404).json({ message: "Task not found" });
+  }
+};
+
+//Delete task
+export const deleteTask = (req: Request, res: Response) => {
+  //lekérjük a feladat új adatait
+  const { id } = req.params;
+  //frissíti a "tasks" táblában a megadott id-hoz tartozó feladatot
+  const deleteTask = db.prepare("Delete FROM tasks WHERE id =?");
+  // A run() metódus végrehajtja az SQL utasítást, és az eredményt a "result" változóba mentjük
+  const result = deleteTask.run(Number(id));
+  if (result.changes > 0) {
+    //sikeres tötlés
+    res.status(200).json({ message: "Task deleted successfully" });
+  } else {
+    //ha nem található task
     res.status(404).json({ message: "Task not found" });
   }
 };
