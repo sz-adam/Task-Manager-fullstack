@@ -1,14 +1,19 @@
-import express from "express";
-import bodyParser from "body-parser";
-import taskRouter from "./routes/TaskRoute";
+import express from 'express';
+import cors from 'cors';
+import taskRouter from './routes/TaskRoute';
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
-app.use("/api", taskRouter);
+// Middleware beállítások
+app.use(cors()); 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 
+// API route-ok
+app.use('/api', taskRouter);
 
+// szerver
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
