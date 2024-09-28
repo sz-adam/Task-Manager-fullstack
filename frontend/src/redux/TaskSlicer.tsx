@@ -53,6 +53,24 @@ export const addTask = createAsyncThunk("addTask", async (task: NewTask) => {
   return response.json();
 });
 
+export const deleteTask = createAsyncThunk(
+  "deleteTask",
+  async (taskId: string) => {
+    const response = await fetch(
+      `http://localhost:3000/api/deletetask/${taskId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete the task");
+    }
+
+    return taskId;
+  }
+);
+
 const taskSlice = createSlice({
   name: "tasks",
   initialState,
@@ -62,6 +80,7 @@ const taskSlice = createSlice({
       state.isLoading = true;
       state.error = false;
     });
+    //0ssyes task lekérése
     builder.addCase(fetchTask.fulfilled, (state, action) => {
       state.isLoading = false;
       state.data = action.payload;
@@ -82,6 +101,16 @@ const taskSlice = createSlice({
     });
     builder.addCase(addTask.rejected, (state) => {
       state.isLoading = false;
+      state.error = true;
+    });
+
+    // Task törlés kezelése
+    builder.addCase(deleteTask.fulfilled, (state, action) => {
+      if (state.data) {
+        state.data = state.data.filter((task) => task.id !== action.payload);
+      }
+    });
+    builder.addCase(deleteTask.rejected, (state) => {
       state.error = true;
     });
   },

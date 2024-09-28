@@ -11,7 +11,7 @@ const Tasks: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchTask());
-  }, [dispatch]);  
+  }, [dispatch]);
 
   return (
     <div>
@@ -32,6 +32,7 @@ const Tasks: React.FC = () => {
             {data.data.map((task, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Task
+                  id={task.id}
                   title={task.title}
                   description={task.description}
                   status={task.status}
