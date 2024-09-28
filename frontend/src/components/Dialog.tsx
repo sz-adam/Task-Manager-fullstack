@@ -10,24 +10,31 @@ import {
   InputLabel,
   Input,
 } from "@mui/material";
+import { AppDispatch } from "../redux/store";
+import { useDispatch } from "react-redux";
+import { addTask } from "../redux/TaskSlicer";
 
 interface TaskDialogProps {
   open: boolean;
   handleClose: () => void;
-  handleSubmit: (title: string, description: string) => void;
 }
 
-const TaskDialog: React.FC<TaskDialogProps> = ({
-  open,
-  handleClose,
-  handleSubmit,
-}) => {
+const TaskDialog: React.FC<TaskDialogProps> = ({ open, handleClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const dispatch: AppDispatch = useDispatch();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleSubmit(title, description);
+
+    const newTask: { title: string; description: string } = {
+      title,
+      description,
+    };
+
+    // Küldés a Redux thunk segítségével
+    dispatch(addTask(newTask));
+
     setTitle("");
     setDescription("");
     handleClose();
@@ -51,7 +58,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-          </FormControl>         
+          </FormControl>
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="task-description">Task Description</InputLabel>
             <Input

@@ -16,11 +16,6 @@ const Header: React.FC = () => {
     setOpen(false);
   };
 
-  // Az űrlap beküldése
-  const handleSubmit = (title: string, description: string) => {
-    console.log("Task Submitted:", { title, description });
-   
-  };
   return (
     <Box
       display="flex"
@@ -55,7 +50,7 @@ const Header: React.FC = () => {
       >
         <AddIcon className="animated-icon" /> Add Task
       </Button>
-      <TaskDialog open={open} handleClose={handleClose} handleSubmit={handleSubmit}/>
+      <TaskDialog open={open} handleClose={handleClose} />
     </Box>
   );
 };
