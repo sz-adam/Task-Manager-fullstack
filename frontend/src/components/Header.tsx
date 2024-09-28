@@ -1,7 +1,26 @@
 import { Box, Button, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useState } from "react";
+import TaskDialog from "./Dialog";
 
-function Header() {
+const Header: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
+  // Dialógus megnyitása
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  // Dialógus bezárása
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // Az űrlap beküldése
+  const handleSubmit = (title: string, description: string) => {
+    console.log("Task Submitted:", { title, description });
+   
+  };
   return (
     <Box
       display="flex"
@@ -26,6 +45,7 @@ function Header() {
       <Button
         variant="contained"
         color="primary"
+        onClick={handleClickOpen}
         sx={{
           display: "flex",
           alignItems: "center",
@@ -35,8 +55,9 @@ function Header() {
       >
         <AddIcon className="animated-icon" /> Add Task
       </Button>
+      <TaskDialog open={open} handleClose={handleClose} handleSubmit={handleSubmit}/>
     </Box>
   );
-}
+};
 
 export default Header;
