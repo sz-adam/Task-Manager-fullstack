@@ -2,6 +2,8 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DoneIcon from "@mui/icons-material/Done";
+import TaskCardIcon from "./TaskCardIcon";
 
 interface Task {
   title: string;
@@ -17,10 +19,10 @@ const Task: React.FC<Task> = ({ title, description, status, created_at }) => {
         <Box display="flex" justifyContent="end" alignItems="end">
           <Box sx={{ textAlign: "center" }}>
             <Typography variant="body2" color="text.secondary">
-              {created_at.toLocaleDateString()}{" "}
+              {new Date(created_at).toLocaleDateString()}{" "}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {created_at.toLocaleTimeString()}
+              {new Date(created_at).toLocaleTimeString()}
             </Typography>
           </Box>
         </Box>
@@ -31,10 +33,7 @@ const Task: React.FC<Task> = ({ title, description, status, created_at }) => {
           {description}
         </Typography>
         <Box display="flex" justifyContent="space-between">
-          <Box sx={{ marginTop: "auto" }}>
-            <ModeEditIcon sx={{ marginRight: 1, cursor: "pointer" }} />
-            <DeleteForeverIcon sx={{ marginLeft: 1, cursor: "pointer" }} />
-          </Box>
+          <TaskCardIcon />
           <Box textAlign="center">
             {" "}
             <Typography variant="body2" color="text.secondary">
