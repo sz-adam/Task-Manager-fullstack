@@ -1,17 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { TaskModel } from "../model/TaskModel";
 
 interface TaskState {
   isLoading: boolean;
-  date: any | null; 
+  data: TaskModel[] | null; 
   error: boolean;
 }
 
 // initial state
 const initialState: TaskState = {
   isLoading: false,
-  date: null,
+  data: null,
   error: false,
 };
+
+
 
 // Aszinkron thunk az adatok lekéréséhez
 export const fetchTask = createAsyncThunk("fetchTask", async () => {
@@ -44,7 +47,7 @@ const taskSlice = createSlice({
     });
     builder.addCase(fetchTask.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.date = action.payload;
+      state.data = action.payload;
     });
     builder.addCase(fetchTask.rejected, (state) => {
       state.isLoading = false;
