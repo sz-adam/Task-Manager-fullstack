@@ -17,11 +17,13 @@ import { addTask } from "../redux/TaskSlicer";
 interface TaskDialogProps {
   open: boolean;
   handleClose: () => void;
+  initialTitle?: string; // Opciós, mivel lehet, hogy új task létrehozásról van szó
+  initialDescription?: string;
 }
 
-const TaskDialog: React.FC<TaskDialogProps> = ({ open, handleClose }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+const TaskDialog: React.FC<TaskDialogProps> = ({  open, handleClose, initialTitle = "", initialDescription = "" }) => {
+  const [title, setTitle] = useState(initialTitle);
+  const [description, setDescription] = useState(initialDescription);
   const dispatch: AppDispatch = useDispatch();
 
   const onSubmit = (e: React.FormEvent) => {
@@ -42,12 +44,13 @@ const TaskDialog: React.FC<TaskDialogProps> = ({ open, handleClose }) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Add a New Task</DialogTitle>
+      <DialogTitle>{initialTitle ? "Edit Task" : "Add a New Task"}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please enter the details for the new task you want to add.
+          {initialTitle
+            ? "Modify the details for the selected task."
+            : "Please enter the details for the new task you want to add."}
         </DialogContentText>
-        {/* Form kezdete */}
         <form onSubmit={onSubmit}>
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="task-title">Task Title</InputLabel>
@@ -68,16 +71,15 @@ const TaskDialog: React.FC<TaskDialogProps> = ({ open, handleClose }) => {
               onChange={(e) => setDescription(e.target.value)}
               required
               multiline
-              rows={4} // Több soros input mező
+              rows={4}
             />
           </FormControl>
-          {/*gombok */}
           <DialogActions>
             <Button onClick={handleClose} color="secondary">
               Cancel
             </Button>
             <Button type="submit" color="primary">
-              Add Task
+              {initialTitle ? "Save Changes" : "Add Task"}
             </Button>
           </DialogActions>
         </form>

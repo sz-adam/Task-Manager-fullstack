@@ -37,7 +37,7 @@ const Task: React.FC<Task> = ({
           {description}
         </Typography>
         <Box display="flex" justifyContent="space-between">
-          <TaskCardIcon id={id} />
+          <TaskCardIcon id={id} title={title} description={description} />
           <Box textAlign="center">
             {" "}
             <Typography variant="body2" color="text.secondary">
