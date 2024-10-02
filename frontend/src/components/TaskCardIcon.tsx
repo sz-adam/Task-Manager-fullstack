@@ -43,6 +43,7 @@ const TaskCardIcon: React.FC<TaskCardIconProps> = ({ id, title, description }) =
         handleClose={() => setEditDialogOpen(false)}
         initialTitle={title} // Task címének átadása
         initialDescription={description} // Task leírásának átadása
+        taskId={id}
       />
     </>
   );

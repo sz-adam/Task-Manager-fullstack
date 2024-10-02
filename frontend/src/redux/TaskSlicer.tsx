@@ -71,6 +71,35 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
+export const updateTask = createAsyncThunk(
+  "tasks/updateTask",
+  async (task: TaskModel) => {
+    const response = await fetch(`http://localhost:3000/api/updatetasks/${task.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        created_at:task.created_at
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update the task");
+    }
+
+    // Frissített feladat visszaküldése a reducernek
+    const updatedTask = await response.json();
+    return updatedTask;
+  }
+);
+
+
+
+
 const taskSlice = createSlice({
   name: "tasks",
   initialState,
@@ -113,6 +142,25 @@ const taskSlice = createSlice({
     builder.addCase(deleteTask.rejected, (state) => {
       state.error = true;
     });
+
+    
+    // Task modosítása kezelése
+    builder.addCase(updateTask.fulfilled, (state, action) => {
+      if (state.data) {
+        const index = state.data.findIndex((task) => task.id === action.payload.id);
+        if (index !== -1) {
+          // Frissítsük az adott taskot, a status-t és a created_at mező kivételével
+          state.data[index] = {
+            ...state.data[index],  
+            title: action.payload.title, 
+            description: action.payload.description, 
+            status: action.payload.status, 
+            created_at: action.payload.created_at,
+          };
+        }
+      }
+    });
+
   },
 });
 

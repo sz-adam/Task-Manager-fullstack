@@ -12,16 +12,18 @@ import {
 } from "@mui/material";
 import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
-import { addTask } from "../redux/TaskSlicer";
+import { addTask, updateTask } from "../redux/TaskSlicer";
 
 interface TaskDialogProps {
   open: boolean;
   handleClose: () => void;
   initialTitle?: string; // Opciós, mivel lehet, hogy új task létrehozásról van szó
   initialDescription?: string;
+  taskId: string;
 }
 
-const TaskDialog: React.FC<TaskDialogProps> = ({  open, handleClose, initialTitle = "", initialDescription = "" }) => {
+
+const TaskDialog: React.FC<TaskDialogProps> = ({ open, handleClose, initialTitle = "", initialDescription = "", taskId }) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
   const dispatch: AppDispatch = useDispatch();
@@ -29,13 +31,12 @@ const TaskDialog: React.FC<TaskDialogProps> = ({  open, handleClose, initialTitl
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newTask: { title: string; description: string } = {
-      title,
-      description,
-    };
-
-    // Küldés a Redux thunk segítségével
-    dispatch(addTask(newTask));
+    // Ha van taskId, akkor szerkesztésről van szó, ha nincs, akkor új taskot adunk hozzá
+    if (taskId) {
+      dispatch(updateTask({ id: taskId, title, description, status: "pending", created_at: new Date() }));
+    } else {
+      dispatch(addTask({ title, description }));
+    }
 
     setTitle("");
     setDescription("");
@@ -56,7 +57,6 @@ const TaskDialog: React.FC<TaskDialogProps> = ({  open, handleClose, initialTitl
             <InputLabel htmlFor="task-title">Task Title</InputLabel>
             <Input
               id="task-title"
-              aria-describedby="title-helper-text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -66,7 +66,6 @@ const TaskDialog: React.FC<TaskDialogProps> = ({  open, handleClose, initialTitl
             <InputLabel htmlFor="task-description">Task Description</InputLabel>
             <Input
               id="task-description"
-              aria-describedby="description-helper-text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
@@ -87,5 +86,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({  open, handleClose, initialTitl
     </Dialog>
   );
 };
+
+
 
 export default TaskDialog;
