@@ -32,13 +32,13 @@ export const allTasks = (req: Request, res: Response) => {
 export const updateTask = (req: Request, res: Response) => {
   const { id } = req.params;
   //lekérjük a feladat új adatait
-  const { title, description, status } = req.body;
+  const { title, description, status, created_at } = req.body;
   //frissíti a "tasks" táblában a megadott id-hoz tartozó feladatot
   const updateTask = db.prepare(
-    "UPDATE tasks SET title =? , description =? ,status =? WHERE id = ?"
+    "UPDATE tasks SET title =? , description =? ,status =?, created_at =? WHERE id = ? "
   );
   // A run() metódus végrehajtja az SQL utasítást, és az eredményt a "result" változóba mentjük
-  const result = updateTask.run(title, description, status, Number(id)); // id-t számmá konvertáljuk
+  const result = updateTask.run(title, description, status, created_at, Number(id)); // id-t számmá konvertáljuk
   // Ellenőrizzük, hogy történt-e változtatás az adatbázisban
   if (result.changes > 0) {
     const updatedTask: Task = {
@@ -46,7 +46,7 @@ export const updateTask = (req: Request, res: Response) => {
       title,
       description,
       status,
-      created_at: new Date(),
+      created_at
     };
     res.json(updatedTask);
   } else {
