@@ -19,7 +19,7 @@ interface TaskDialogProps {
   handleClose: () => void;
   initialTitle?: string; // Opciós, mivel lehet, hogy új task létrehozásról van szó
   initialDescription?: string;
-  taskId: string;
+  taskId?: string;
 }
 
 
