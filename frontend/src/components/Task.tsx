@@ -18,7 +18,10 @@ const Task: React.FC<Task> = ({
   id,
 }) => {
   return (
-    <Card sx={{ maxWidth: 400, boxShadow: 3 }}>
+    <Card sx={{
+      maxWidth: 400, boxShadow: 3, backgroundColor: status === "completed" ? "success.light" : status === "in-progress" ? "warning.light"
+        : "error.light"
+    }} >
       <CardContent>
         <Box display="flex" justifyContent="end" alignItems="end">
           <Box sx={{ textAlign: "center" }}>
