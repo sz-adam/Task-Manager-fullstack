@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { NewTask, TaskModel } from "../model/TaskModel";
+import axios from "axios";
+
 
 interface TaskState {
   isLoading: boolean;
@@ -15,88 +17,32 @@ const initialState: TaskState = {
 };
 
 // Aszinkron thunk az adatok lekéréséhez
+// összes task
 export const fetchTask = createAsyncThunk("fetchTask", async () => {
-  const response = await fetch("http://localhost:3000/api/alltasks", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({}),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.text();
-    throw new Error(
-      `HTTP error! Status: ${response.status}, Message: ${errorData}`
-    );
-  }
-
-  return response.json();
+  const response = await axios.post("http://localhost:3000/api/alltasks", {});
+  return response.data;
 });
-
+//create task
 export const addTask = createAsyncThunk("addTask", async (task: NewTask) => {
-  const response = await fetch("http://localhost:3000/api/tasks", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(task),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.text();
-    throw new Error(
-      `HTTP error! Status: ${response.status}, Message: ${errorData}`
-    );
-  }
-
-  return response.json();
+  const response = await axios.post("http://localhost:3000/api/tasks", task);
+  return response.data;
+});
+//delete task
+export const deleteTask = createAsyncThunk("deleteTask", async (taskId: string) => {
+  await axios.delete(`http://localhost:3000/api/deletetask/${taskId}`);
+  return taskId;
 });
 
-export const deleteTask = createAsyncThunk(
-  "deleteTask",
-  async (taskId: string) => {
-    const response = await fetch(
-      `http://localhost:3000/api/deletetask/${taskId}`,
-      {
-        method: "DELETE",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to delete the task");
-    }
-
-    return taskId;
-  }
-);
-
-export const updateTask = createAsyncThunk(
-  "tasks/updateTask",
-  async (task: TaskModel) => {
-    const response = await fetch(`http://localhost:3000/api/updatetasks/${task.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: task.title,
-        description: task.description,
-        status: task.status,
-        created_at:task.created_at
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to update the task");
-    }
-
-    // Frissített feladat visszaküldése a reducernek
-    const updatedTask = await response.json();
-    return updatedTask;
-  }
-);
-
+//update task
+export const updateTask = createAsyncThunk("updateTask", async (task: TaskModel) => {
+  const response = await axios.put(`http://localhost:3000/api/updatetasks/${task.id}`, {
+    title: task.title,
+    description: task.description,
+    status: task.status,
+    created_at: task.created_at
+  });
+  return response.data;
+});
 
 
 
