@@ -13,6 +13,12 @@ const Tasks: React.FC = () => {
     dispatch(fetchTask());
   }, [dispatch]);
 
+
+  const sortedTasks = data.data
+      //tömb másolatával dolgozunk
+    ? [...data.data].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    : [];
+
   return (
     <div>
       {data.isLoading ? (
@@ -29,17 +35,17 @@ const Tasks: React.FC = () => {
       ) : data.data && data.data.length > 0 ? (
         <Box sx={{ flexGrow: 1, padding: 2, marginTop: 2 }}>
           <Grid container spacing={3}>
-            {data.data.map((task, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Task
-                  id={task.id}
-                  title={task.title}
-                  description={task.description}
-                  status={task.status}
-                  created_at={task.created_at}
-                />
-              </Grid>
-            ))}
+              {sortedTasks.map((task, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <Task
+                    id={task.id}
+                    title={task.title}
+                    description={task.description}
+                    status={task.status}
+                    created_at={task.created_at}
+                  />
+                </Grid>
+              ))}
           </Grid>
         </Box>
       ) : (
