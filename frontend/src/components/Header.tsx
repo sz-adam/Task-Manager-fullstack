@@ -22,6 +22,7 @@ const Header: React.FC = () => {
       justifyContent="space-between"
       alignItems="center"
       p="2"
+      margin={2}      
     >
       <Box position="relative" display="inline-block">
         <Typography variant="h4" color="textPrimary" fontWeight="bold">
