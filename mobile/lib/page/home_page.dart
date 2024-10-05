@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/widget/header.dart';
+import 'package:mobile/widget/task_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,7 +10,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Column(
-        children: [Header()],
+        children: [
+          Header(),
+          Expanded(
+            child: TaskListPage(),
+          ),
+        ],
       )),
     );
   }

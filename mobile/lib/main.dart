@@ -18,11 +18,19 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor:
               const Color.fromARGB(255, 0, 82, 122), //háttérszin
           textTheme: const TextTheme(
-            titleLarge: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.white), //Title stilusa
-          ),
+              //Cím stilusa
+              titleLarge: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+              //Task cím stílusa
+              titleMedium: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+
+              //Task leírás stílusa
+              labelMedium: TextStyle(color: Colors.white)),
           iconTheme: const IconThemeData(
             size: 30,
             color: Colors.white,
