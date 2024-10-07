@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobile/Dummy_data.dart';
-import 'package:intl/intl.dart'; // Dátum formázásához
+import 'package:intl/intl.dart';
+import 'package:mobile/widget/slidable_delete_dialog.dart'; // Dátum formázásához
 
 class Task extends StatelessWidget {
   const Task({Key? key, required this.task}) : super(key: key);
@@ -18,7 +19,14 @@ class Task extends StatelessWidget {
         motion: const StretchMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) {},
+           onPressed: (context) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const SlidableDeleteDialog();
+                },
+              );
+            },
             icon: Icons.delete,
             backgroundColor: Colors.red,
           ),
