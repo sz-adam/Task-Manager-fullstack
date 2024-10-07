@@ -13,7 +13,6 @@ class Task extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat.yMMMMd().format(task.createdAt);
-    final bool UpdateComponent;
 
     return Slidable(
       //starting
@@ -77,10 +76,10 @@ class Task extends StatelessWidget {
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Created: $formattedDate',
-                  style: TextStyle(color: Colors.grey[600])),
+              Text('$formattedDate',
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),),
               const SizedBox(height: 18),
-              Text(task.status),
+              Text(task.status,style: TextStyle(fontSize: 14),),
             ],
           ),
         ),
