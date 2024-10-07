@@ -8,15 +8,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Task Manager',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          scaffoldBackgroundColor:
-              const Color.fromARGB(255, 0, 82, 122), //háttérszin
+          scaffoldBackgroundColor: const Color.fromARGB(255, 0, 82, 122),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color.fromARGB(255, 0, 82, 122),
+            foregroundColor: Colors.white,
+          ), //háttérszin
           textTheme: const TextTheme(
               //Cím stilusa
               titleLarge: TextStyle(
