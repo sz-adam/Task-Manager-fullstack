@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobile/Dummy_data.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/widget/create_update_task.dart';
 import 'package:mobile/widget/slidable_delete_dialog.dart'; // Dátum formázásához
 
 class Task extends StatelessWidget {
@@ -12,6 +13,7 @@ class Task extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat.yMMMMd().format(task.createdAt);
+    final bool UpdateComponent;
 
     return Slidable(
       //starting
@@ -19,7 +21,7 @@ class Task extends StatelessWidget {
         motion: const StretchMotion(),
         children: [
           SlidableAction(
-           onPressed: (context) {
+            onPressed: (context) {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -42,7 +44,13 @@ class Task extends StatelessWidget {
             backgroundColor: Colors.green,
           ),
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: (context) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CreateUpdatetask(UpdateComponent: true),
+                ),
+              );
+            },
             icon: Icons.edit,
             backgroundColor: Colors.blue,
           ),

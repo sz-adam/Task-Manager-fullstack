@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CreateUpdatetask extends StatefulWidget {
+  CreateUpdatetask({Key? key, this.UpdateComponent = false}) : super(key: key);
+
+  final bool UpdateComponent;
+
   @override
   State<CreateUpdatetask> createState() => _CreateUpdatetaskState();
 }
@@ -11,20 +15,24 @@ class _CreateUpdatetaskState extends State<CreateUpdatetask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
-        title: const Text("Create Task"),
+        title: Text(widget.UpdateComponent ? "Update Task" : "Create Task"),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                const SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-             const Icon(Icons.assignment,size: 140,),
-             const SizedBox(height: 100,),
+              const Icon(
+                Icons.assignment,
+                size: 140,
+              ),
+              const SizedBox(
+                height: 100,
+              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.45,
                 child: Form(
@@ -32,9 +40,11 @@ class _CreateUpdatetaskState extends State<CreateUpdatetask> {
                   child: Column(
                     children: [
                       TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "Task Title",
-                          labelStyle: TextStyle(
+                        decoration: InputDecoration(
+                          labelText: widget.UpdateComponent
+                              ? "Update Task Title"
+                              : "Task Title",
+                          labelStyle: const TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255)),
                         ),
                         obscureText: true,
@@ -48,24 +58,35 @@ class _CreateUpdatetaskState extends State<CreateUpdatetask> {
                       const SizedBox(
                         height: 30,
                       ),
-                      const TextField(
+                      TextField(
                         keyboardType: TextInputType.multiline,
                         maxLines: 4,
                         decoration: InputDecoration(
-                          labelText: "Task Title",
-                          labelStyle: TextStyle(
+                          labelText: widget.UpdateComponent
+                              ? "Update task description"
+                              : "Task description ",
+                          labelStyle: const TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255)),
                         ),
                       ),
                       const SizedBox(
                         height: 30,
                       ),
-                      ElevatedButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "Add Task",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))
+                      widget.UpdateComponent
+                          ? ElevatedButton(
+                              onPressed: () {},
+                              child: const Text(
+                                "Update Task",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          : ElevatedButton(
+                              onPressed: () {},
+                              child: const Text(
+                                "Add Task",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
                     ],
                   ),
                 ),
