@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:mobile/Dummy_data.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; // Dátum formázásához
+import 'package:mobile/model/task_model.dart';
 import 'package:mobile/widget/create_update_task.dart';
-import 'package:mobile/widget/slidable_delete_dialog.dart'; // Dátum formázásához
+import 'package:mobile/widget/slidable_delete_dialog.dart';
 
 class Task extends StatelessWidget {
   const Task({Key? key, required this.task}) : super(key: key);
 
-  final TaskData task;
+  final TaskModel task;
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +76,15 @@ class Task extends StatelessWidget {
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('$formattedDate',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),),
+              Text(
+                '$formattedDate',
+                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+              ),
               const SizedBox(height: 18),
-              Text(task.status,style: TextStyle(fontSize: 14),),
+              Text(
+                task.status,
+                style: TextStyle(fontSize: 14),
+              ),
             ],
           ),
         ),
