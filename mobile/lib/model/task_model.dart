@@ -4,7 +4,7 @@ class TaskModel {
   String description;
   String status;
   DateTime createdAt;
- 
+
   TaskModel({
     required this.id,
     required this.title,
@@ -32,7 +32,20 @@ class TaskModel {
       'description': description,
       'status': status,
       'created_at': createdAt
-         
+    };
+  }
+}
+
+class createTaskModel {
+  String title;
+  String description;
+
+  createTaskModel({required this.title, required this.description});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
     };
   }
 }

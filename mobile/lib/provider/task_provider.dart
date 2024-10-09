@@ -8,3 +8,9 @@ final taskProvider = FutureProvider<List<TaskModel>>((ref) async {
   final apiTaskService = ref.watch(apiServiceProvider);
   return apiTaskService.fetchAllTask();
 });
+
+final createTaskProvider =
+    FutureProvider.family<void, createTaskModel>((ref, task) async {
+  final apiTaskService = ref.watch(apiServiceProvider);
+  await apiTaskService.createTask(task);
+});

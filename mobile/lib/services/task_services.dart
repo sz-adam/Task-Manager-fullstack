@@ -14,4 +14,14 @@ class TaskServices {
       throw Exception('Failed to load Tasks');
     }
   }
+
+  Future<void> createTask(createTaskModel task) async {
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:3000/api/tasks"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(task.toJson()));
+    if (response.statusCode != 201) {
+      throw Exception("Failed to create task");
+    }
+  }
 }
