@@ -19,7 +19,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
   final TextEditingController descriptionController = TextEditingController();
 
   // Új Task létrehoza
-  void _createTask() {
+  void _createTask(WidgetRef ref, BuildContext context) {
     if (_formKey.currentState!.validate()) {
       final newTask = createTaskModel(
         title: titleController.text,
@@ -102,7 +102,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
                         //telefon billenytűzetén lévő done gomb vezérlése
                         textInputAction: TextInputAction.done,
                         onSubmitted: (value) {
-                          _createTask();
+                          _createTask(ref, context);
                         },
                       ),
                       const SizedBox(height: 30),
@@ -117,7 +117,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
                               ),
                             )
                           : ElevatedButton(
-                              onPressed: _createTask,
+                              onPressed: () => _createTask(ref, context),
                               child: const Text(
                                 "Add Task",
                                 style: TextStyle(fontWeight: FontWeight.bold),
