@@ -24,7 +24,7 @@ class Task extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const SlidableDeleteDialog();
+                  return SlidableDeleteDialog(id:task.id);
                 },
               );
             },
@@ -46,7 +46,7 @@ class Task extends StatelessWidget {
             onPressed: (context) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CreateUpdatetask(UpdateComponent: true),
+                  builder: (context) => CreateUpdatetask(updateComponent: true),
                 ),
               );
             },

@@ -14,3 +14,10 @@ final createTaskProvider =
   final apiTaskService = ref.watch(apiServiceProvider);
   await apiTaskService.createTask(task);
 });
+
+final deleteTaskProvider =
+    FutureProvider.family<void, int>((ref, taskId) async {
+  final taskService = ref.read(apiServiceProvider);
+  await taskService.deleteTask(taskId);
+  ref.invalidate(taskProvider); // Frissíti a task listát a törlés után
+});
