@@ -25,13 +25,26 @@ class TaskServices {
     }
   }
 
-
 // Task törlése ID alapján
   Future<void> deleteTask(int taskId) async {
-    final response = await http.delete(Uri.parse("http://10.0.2.2:3000/api/deletetask/$taskId"));
+    final response = await http
+        .delete(Uri.parse("http://10.0.2.2:3000/api/deletetask/$taskId"));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to delete Task');
+    }
+  }
+
+  //update Task
+  Future<void> updateTask(TaskModel task) async {
+    final response = await http.put(
+      Uri.parse("http://10.0.2.2:3000/api/updatetasks/${task.id}"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(task.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update task');
     }
   }
 }

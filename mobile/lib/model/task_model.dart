@@ -31,7 +31,7 @@ class TaskModel {
       'title': title,
       'description': description,
       'status': status,
-      'created_at': createdAt
+      'created_at': createdAt.toIso8601String()
     };
   }
 }

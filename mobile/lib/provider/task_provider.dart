@@ -21,3 +21,10 @@ final deleteTaskProvider =
   await taskService.deleteTask(taskId);
   ref.invalidate(taskProvider); // Frissíti a task listát a törlés után
 });
+
+final updateTaskProvider =
+    FutureProvider.family<void, TaskModel>((ref, task) async {
+  final updateService = ref.read(apiServiceProvider);
+  await updateService.updateTask(task);
+  ref.invalidate(taskProvider);
+});

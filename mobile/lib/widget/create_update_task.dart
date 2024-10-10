@@ -31,6 +31,33 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
     }
   }
 
+  void _updateTask(WidgetRef ref, BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      final updateTask = TaskModel(
+          id: widget.task!.id,
+          title: titleController.text,
+          description: descriptionController.text,
+          status: widget.task!.status,
+          createdAt: DateTime.now());
+
+      // Riverpod provider meghívása a feladat létrehozásához
+      ref.read(updateTaskProvider(updateTask).future).then((_) {
+        // Az űrlap alaphelyzetbe állítása
+        titleController.clear();
+        descriptionController.clear();
+        //visszalépünk
+        Navigator.pop(context);
+      }).catchError((error) {
+        // Hiba esetén visszajelzés
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to update task'),
+          ),
+        );
+      });
+    }
+  }
+
   // Új Task létrehoza
   void _createTask(WidgetRef ref, BuildContext context) {
     if (_formKey.currentState!.validate()) {
@@ -45,9 +72,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
         titleController.clear();
         descriptionController.clear();
 
-        //frissítsjük a taskProvidert
-        ref.invalidate(taskProvider);
-        //visszalépünk
+      //visszalépünk
         Navigator.pop(context);
       }).catchError((error) {
         // Hiba esetén visszajelzés
@@ -114,16 +139,21 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
                         style: const TextStyle(color: Colors.white),
                         //telefon billenytűzetén lévő done gomb vezérlése
                         textInputAction: TextInputAction.done,
-                        onSubmitted: (value) {
-                          _createTask(ref, context);
+                        //TODO: Létrehozásnál nem frissít egyből  
+                        onSubmitted: (value) {                         
+                          if (widget.updateComponent) {
+                            _updateTask(
+                                ref, context);
+                          } else {
+                            _createTask(
+                                ref, context);
+                          }
                         },
                       ),
                       const SizedBox(height: 30),
                       widget.updateComponent
                           ? ElevatedButton(
-                              onPressed: () {
-                                // Update logika
-                              },
+                              onPressed: () => _updateTask(ref, context),
                               child: const Text(
                                 "Update Task",
                                 style: TextStyle(fontWeight: FontWeight.bold),
