@@ -4,9 +4,9 @@ import 'package:mobile/model/task_model.dart';
 import 'package:mobile/provider/task_provider.dart';
 
 class CreateUpdatetask extends ConsumerStatefulWidget {
-  CreateUpdatetask({Key? key, this.UpdateComponent = false}) : super(key: key);
+  CreateUpdatetask({Key? key, this.updateComponent = false}) : super(key: key);
 
-  final bool UpdateComponent;
+  final bool updateComponent;
 
   @override
   ConsumerState<CreateUpdatetask> createState() => _CreateUpdatetaskState();
@@ -51,7 +51,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.UpdateComponent ? "Update Task" : "Create Task"),
+        title: Text(widget.updateComponent ? "Update Task" : "Create Task"),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -70,7 +70,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
                       TextFormField(
                         controller: titleController,
                         decoration: InputDecoration(
-                          labelText: widget.UpdateComponent
+                          labelText: widget.updateComponent
                               ? "Update Task Title"
                               : "Task Title",
                           labelStyle: const TextStyle(
@@ -92,7 +92,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
                         maxLines: 4,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
-                          labelText: widget.UpdateComponent
+                          labelText: widget.updateComponent
                               ? "Update task description"
                               : "Task description",
                           labelStyle: const TextStyle(
@@ -106,7 +106,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
                         },
                       ),
                       const SizedBox(height: 30),
-                      widget.UpdateComponent
+                      widget.updateComponent
                           ? ElevatedButton(
                               onPressed: () {
                                 // Update logika
