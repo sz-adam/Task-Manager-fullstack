@@ -4,9 +4,11 @@ import 'package:mobile/model/task_model.dart';
 import 'package:mobile/provider/task_provider.dart';
 
 class CreateUpdatetask extends ConsumerStatefulWidget {
-  CreateUpdatetask({Key? key, this.updateComponent = false}) : super(key: key);
+  CreateUpdatetask({Key? key, this.updateComponent = false, this.task})
+      : super(key: key);
 
   final bool updateComponent;
+  final TaskModel? task;
 
   @override
   ConsumerState<CreateUpdatetask> createState() => _CreateUpdatetaskState();
@@ -17,6 +19,17 @@ final _formKey = GlobalKey<FormState>();
 class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
+//update
+  @override
+  void initState() {
+    super.initState();
+    //A formba visszatöltjük az adott task adatait
+    if (widget.updateComponent && widget.task != null) {
+      titleController.text = widget.task!.title;
+      descriptionController.text = widget.task!.description;
+    }
+  }
 
   // Új Task létrehoza
   void _createTask(WidgetRef ref, BuildContext context) {

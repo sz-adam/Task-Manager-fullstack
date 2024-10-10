@@ -46,7 +46,7 @@ class Task extends StatelessWidget {
             onPressed: (context) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CreateUpdatetask(updateComponent: true),
+                  builder: (context) => CreateUpdatetask(updateComponent: true,task:task),
                 ),
               );
             },
