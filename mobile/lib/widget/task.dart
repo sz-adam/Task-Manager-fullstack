@@ -4,15 +4,27 @@ import 'package:intl/intl.dart'; // Dátum formázásához
 import 'package:mobile/model/task_model.dart';
 import 'package:mobile/widget/create_update_task.dart';
 import 'package:mobile/widget/slidable_delete_dialog.dart';
+import 'package:mobile/widget/status_bottom_dialog.dart';
 
-class Task extends StatelessWidget {
+class Task extends StatefulWidget {
   const Task({Key? key, required this.task}) : super(key: key);
 
   final TaskModel task;
 
   @override
+  State<Task> createState() => _TaskState();
+}
+
+class _TaskState extends State<Task> {
+  //status modosítása
+void _openStatusUpdate(BuildContext context) {
+    showModalBottomSheet(
+        context: context, builder: (ctx) => StatusBottomDialog());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat.yMMMMd().format(task.createdAt);
+    String formattedDate = DateFormat.yMMMMd().format(widget.task.createdAt);
 
     return Slidable(
       //starting
@@ -24,7 +36,7 @@ class Task extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return SlidableDeleteDialog(id:task.id);
+                  return SlidableDeleteDialog(id: widget.task.id);
                 },
               );
             },
@@ -37,16 +49,19 @@ class Task extends StatelessWidget {
       endActionPane: ActionPane(
         motion: const StretchMotion(),
         children: [
+          //status
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: _openStatusUpdate,
             icon: Icons.update,
             backgroundColor: Colors.green,
           ),
+          //update
           SlidableAction(
             onPressed: (context) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CreateUpdatetask(updateComponent: true,task:task),
+                  builder: (context) => CreateUpdatetask(
+                      updateComponent: true, task: widget.task),
                 ),
               );
             },
@@ -67,10 +82,10 @@ class Task extends StatelessWidget {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(task.title,
+              Text(widget.task.title,
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              Text(task.description),
+              Text(widget.task.description),
             ],
           ),
           trailing: Column(
@@ -82,7 +97,7 @@ class Task extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               Text(
-                task.status,
+                widget.task.status,
                 style: TextStyle(fontSize: 14),
               ),
             ],

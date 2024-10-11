@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/provider/status_provider.dart';
+import 'package:mobile/widget/status.dart';
+
+class StatusBottomDialog extends ConsumerStatefulWidget {
+  const StatusBottomDialog({Key? key}) : super(key: key);
+
+  @override
+  _StatusBottomDialogState createState() => _StatusBottomDialogState();
+}
+
+class _StatusBottomDialogState extends ConsumerState<StatusBottomDialog> {
+  String? selectedStatus; // A selectedStatus itt van
+
+  @override
+  Widget build(BuildContext context) {
+    final taskAsyncValue = ref.watch(statusProvider);
+
+    return taskAsyncValue.when(
+      data: (status) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                  'Status Update',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: status.length,
+                  itemBuilder: (context, index) {
+                    final stat = status[index];
+                    return Status(
+                      status: stat,
+                      selectedStatus: selectedStatus,
+                      onSelected: (value) {
+                        setState(() {
+                          selectedStatus =
+                              value; // Frissítjük a selectedStatus-t
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+    );
+  }
+}
