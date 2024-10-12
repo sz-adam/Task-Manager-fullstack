@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/widget/header.dart';
+import 'package:mobile/widget/task_chart.dart';
 import 'package:mobile/widget/task_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,7 +12,8 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          Header(),
+          const Header(),
+          const TaskChart(),
           Expanded(
             child: TaskListPage(),
           ),
