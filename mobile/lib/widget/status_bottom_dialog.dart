@@ -14,7 +14,19 @@ class StatusBottomDialog extends ConsumerStatefulWidget {
 }
 
 class _StatusBottomDialogState extends ConsumerState<StatusBottomDialog> {
-  String? selectedStatus; // A selectedStatus itt van
+  String? selectedStatus;
+
+  void _updateStatus() async {
+    try {
+      await ref.read(updateStatus({
+        'taskId': widget.task.id,
+        'status': selectedStatus,
+      }).future);
+      Navigator.pop(context);
+    } catch (e) {
+      print('Hiba történt: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +35,7 @@ class _StatusBottomDialogState extends ConsumerState<StatusBottomDialog> {
     return taskAsyncValue.when(
       data: (status) {
         if (selectedStatus == null && status.isNotEmpty) {
-          selectedStatus = widget
-              .task.status; // alapértelmezett status az aktuális status 
+          selectedStatus = widget.task.status;
         }
         return Container(
           padding: const EdgeInsets.all(16.0),
@@ -55,8 +66,7 @@ class _StatusBottomDialogState extends ConsumerState<StatusBottomDialog> {
                       selectedStatus: selectedStatus,
                       onSelected: (value) {
                         setState(() {
-                          selectedStatus =
-                              value; // Frissítjük a selectedStatus-t
+                          selectedStatus = value;
                         });
                       },
                     );
@@ -64,8 +74,11 @@ class _StatusBottomDialogState extends ConsumerState<StatusBottomDialog> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
-                child: const Text('Submit Status'),
+                onPressed: _updateStatus,
+                child: const Text(
+                  'Submit Status',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
               ),
             ],
           ),

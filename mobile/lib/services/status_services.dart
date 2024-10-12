@@ -12,4 +12,15 @@ class StatusServices {
       throw Exception('Failed to load Status');
     }
   }
+
+  Future<void> updateStatus(int taskId, String status) async {
+    final response = await http.put(
+      Uri.parse("http://10.0.2.2:3000/api/updatestatus/$taskId"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"status": status}),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update task');
+    }
+  }
 }
