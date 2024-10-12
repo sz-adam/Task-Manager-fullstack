@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart'; // Dátum formázásához
+import 'package:mobile/model/status_color_model.dart';
 import 'package:mobile/model/task_model.dart';
 import 'package:mobile/widget/create_update_task.dart';
 import 'package:mobile/widget/slidable_delete_dialog.dart';
@@ -77,14 +78,17 @@ class _TaskState extends State<Task> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15), // Lekerekített sarkak
         ),
+        color: StatusColor.getColor(widget.task.status),
         child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.task.title,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(
+                widget.task.title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               Text(widget.task.description),
             ],
@@ -94,12 +98,12 @@ class _TaskState extends State<Task> {
             children: [
               Text(
                 '$formattedDate',
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                style: const TextStyle(fontSize: 12, color: Colors.black54),
               ),
               const SizedBox(height: 18),
               Text(
                 widget.task.status,
-                style: TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14),
               ),
             ],
           ),
