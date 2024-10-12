@@ -11,14 +11,24 @@ class TaskListPage extends ConsumerWidget {
 
     return Scaffold(
       body: taskAsyncValue.when(
-        data: (tasks) => ListView.builder(
-          itemCount: tasks.length,
-          itemBuilder: (context, index) {
-            final task = tasks[index];
-
-            return Task(task: task);
-          },
-        ),
+        data: (tasks) {
+          if (tasks.isEmpty) {
+            return const Text(
+              'No task, please pick one up',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            );
+          }
+          return ListView.builder(
+            itemCount: tasks.length,
+            itemBuilder: (context, index) {
+              final task = tasks[index];
+              return Task(task: task);
+            },
+          );
+        },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => const Center(
           child: Text(
