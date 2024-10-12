@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/model/task_model.dart';
 import 'package:mobile/provider/status_provider.dart';
 import 'package:mobile/widget/status.dart';
 
 class StatusBottomDialog extends ConsumerStatefulWidget {
-  const StatusBottomDialog({Key? key}) : super(key: key);
+  const StatusBottomDialog({Key? key, required this.task}) : super(key: key);
+
+  final TaskModel task;
 
   @override
   _StatusBottomDialogState createState() => _StatusBottomDialogState();
@@ -19,6 +22,10 @@ class _StatusBottomDialogState extends ConsumerState<StatusBottomDialog> {
 
     return taskAsyncValue.when(
       data: (status) {
+        if (selectedStatus == null && status.isNotEmpty) {
+          selectedStatus = widget
+              .task.status; // alapértelmezett status az aktuális status 
+        }
         return Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
@@ -55,6 +62,10 @@ class _StatusBottomDialogState extends ConsumerState<StatusBottomDialog> {
                     );
                   },
                 ),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Submit Status'),
               ),
             ],
           ),

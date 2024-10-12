@@ -17,9 +17,10 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   //status modosítása
-void _openStatusUpdate(BuildContext context) {
+  void _openStatusUpdate(BuildContext context) {
     showModalBottomSheet(
-        context: context, builder: (ctx) => StatusBottomDialog());
+        context: context,
+        builder: (ctx) => StatusBottomDialog(task: widget.task));
   }
 
   @override
