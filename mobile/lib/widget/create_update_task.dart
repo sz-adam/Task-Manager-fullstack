@@ -138,8 +138,7 @@ class _CreateUpdatetaskState extends ConsumerState<CreateUpdatetask> {
                         ),
                         style: const TextStyle(color: Colors.white),
                         //telefon billenytűzetén lévő done gomb vezérlése
-                        textInputAction: TextInputAction.done,
-                        //TODO: Létrehozásnál nem frissít egyből  
+                        textInputAction: TextInputAction.done,                       
                         onSubmitted: (value) {                         
                           if (widget.updateComponent) {
                             _updateTask(
