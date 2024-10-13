@@ -7,6 +7,7 @@ interface TaskState {
   isLoading: boolean;
   data: TaskModel[] | null;
   error: boolean;
+  searchResults: TaskModel[] | null;
 }
 
 // initial state
@@ -14,6 +15,7 @@ const initialState: TaskState = {
   isLoading: false,
   data: null,
   error: false,
+  searchResults: null,
 };
 
 // Aszinkron thunk az adatok lekéréséhez
@@ -44,6 +46,15 @@ export const updateTask = createAsyncThunk("updateTask", async (task: TaskModel)
   return response.data;
 });
 
+//Search
+export const searchTasks = createAsyncThunk(
+  "searchTasks",
+  async (title: string) => {
+    const response = await axios.get(`http://localhost:3000/api/searchtasks?title=${title}`);
+    return response.data;
+  }
+);
+
 
 
 const taskSlice = createSlice({
@@ -55,10 +66,11 @@ const taskSlice = createSlice({
       state.isLoading = true;
       state.error = false;
     });
-    //0ssyes task lekérése
+    //összes task lekérése
     builder.addCase(fetchTask.fulfilled, (state, action) => {
       state.isLoading = false;
       state.data = action.payload;
+      state.searchResults = null; 
     });
     builder.addCase(fetchTask.rejected, (state) => {
       state.isLoading = false;
@@ -89,7 +101,7 @@ const taskSlice = createSlice({
       state.error = true;
     });
 
-    
+
     // Task modosítása kezelése
     builder.addCase(updateTask.fulfilled, (state, action) => {
       if (state.data) {
@@ -97,16 +109,29 @@ const taskSlice = createSlice({
         if (index !== -1) {
           // Frissítsük az adott taskot, a status-t és a created_at mező kivételével
           state.data[index] = {
-            ...state.data[index],  
-            title: action.payload.title, 
-            description: action.payload.description, 
-            status: action.payload.status, 
+            ...state.data[index],
+            title: action.payload.title,
+            description: action.payload.description,
+            status: action.payload.status,
             created_at: action.payload.created_at,
           };
         }
       }
     });
 
+    // Keresési thunk kezelése
+    builder.addCase(searchTasks.pending, (state) => {
+      state.isLoading = true;
+      state.error = false;
+    });
+    builder.addCase(searchTasks.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.searchResults = action.payload;
+    });
+    builder.addCase(searchTasks.rejected, (state) => {
+      state.isLoading = false;
+      state.error = true;
+    });
   },
 });
 
