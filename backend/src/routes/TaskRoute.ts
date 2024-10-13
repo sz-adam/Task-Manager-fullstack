@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { allTasks, createTask, deleteTask, updateTask } from "../controllers/TaskController";
+import { allTasks, createTask, deleteTask, searchTasks, updateTask } from "../controllers/TaskController";
 
 const router = Router();
 //http://localhost:3000/api/tasks
@@ -10,6 +10,8 @@ http://localhost:3000/api/updatetasks/id
 router.put("/updatetasks/:id",updateTask);
 http://localhost:3000/api/deletetask/id
 router.delete("/deletetask/:id",deleteTask);
+//http://localhost:3000/api/searchtasks?title=${title}
+router.get("/searchtasks", searchTasks);
 
 
 export default router;

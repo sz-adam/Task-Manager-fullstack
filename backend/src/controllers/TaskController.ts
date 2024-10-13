@@ -71,7 +71,14 @@ export const deleteTask = (req: Request, res: Response) => {
   }
 };
 
+// Search 
+export const searchTasks = (req: Request, res: Response) => {
+  const title = req.query.title as string;
+  const searchTask = db.prepare("SELECT * FROM tasks WHERE title LIKE ?");
+  const tasks = searchTask.all(`%${title}%`);
+  res.json(tasks);
 
+}
 
 
 
