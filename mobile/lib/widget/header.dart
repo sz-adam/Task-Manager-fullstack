@@ -1,15 +1,17 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/provider/search_provider.dart';
 import 'package:mobile/widget/create_update_task.dart';
 
-class Header extends StatefulWidget {
+class Header extends ConsumerStatefulWidget {
   const Header({Key? key}) : super(key: key);
 
   @override
   _HeaderState createState() => _HeaderState();
 }
 
-class _HeaderState extends State<Header> {
+class _HeaderState extends ConsumerState<Header> {
   TextEditingController textController = TextEditingController();
 
   @override
@@ -17,7 +19,7 @@ class _HeaderState extends State<Header> {
     return Container(
       margin: const EdgeInsets.all(10),
       child: Stack(
-        children: [      
+        children: [
           Positioned(
             left: 10,
             top: 30,
@@ -32,14 +34,16 @@ class _HeaderState extends State<Header> {
                 child: AnimSearchBar(
                   width: 400,
                   textController: textController,
-                  onSubmitted: (value) { },
+                  onSubmitted: (value) {
+                    ref.read(searchProvider.notifier).searchTasks(value);
+                  },
                   onSuffixTap: () {
                     setState(() {
-                      textController.clear(); 
+                      textController.clear();
                     });
                   },
                   color: Colors.white,
-                  helpText: "Search Text..." ,
+                  helpText: "Search Text...",
                   autoFocus: true,
                   closeSearchOnSuffixTap: true,
                   animationDurationInMilli: 1000,
