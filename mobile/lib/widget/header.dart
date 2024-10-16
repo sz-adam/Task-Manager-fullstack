@@ -35,7 +35,16 @@ class _HeaderState extends ConsumerState<Header> {
                   width: 400,
                   textController: textController,
                   onSubmitted: (value) {
-                    ref.read(searchProvider.notifier).searchTasks(value);
+                    if (value.isNotEmpty) {
+                      ref.read(searchProvider.notifier).searchTasks(value);
+                    } else {
+                      //üres keresés
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content:Text('Please enter a search term.'),                         
+                        ),
+                      );
+                    }
                   },
                   onSuffixTap: () {
                     setState(() {
