@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class StatusServices {
-  Future<List<String>> allStatus() async {
-    final response =
-        await http.get(Uri.parse("http://10.0.2.2:3000/api/allstatus"));
+  final String _baseUrl = 'http://10.0.2.2:3000/api/';
 
+  Future<List<String>> allStatus() async {
+    final response = await http.get(Uri.parse('${_baseUrl}allstatus'));
     if (response.statusCode == 200) {
       return List<String>.from(json.decode(response.body));
     } else {
@@ -15,7 +15,7 @@ class StatusServices {
 
   Future<void> updateStatus(int taskId, String status) async {
     final response = await http.put(
-      Uri.parse("http://10.0.2.2:3000/api/updatestatus/$taskId"),
+      Uri.parse('${_baseUrl}updatestatus/$taskId'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"status": status}),
     );

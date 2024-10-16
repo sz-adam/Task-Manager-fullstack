@@ -3,10 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/model/task_model.dart';
 
 class TaskServices {
-  Future<List<TaskModel>> fetchAllTask() async {
-    final response =
-        await http.post(Uri.parse("http://10.0.2.2:3000/api/alltasks"));
+  final String _baseUrl = 'http://10.0.2.2:3000/api/';
 
+//összes task
+  Future<List<TaskModel>> fetchAllTask() async {
+    final response = await http.post(Uri.parse('${_baseUrl}alltasks'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       return data.map((task) => TaskModel.fromJson(task)).toList();
@@ -15,9 +16,9 @@ class TaskServices {
     }
   }
 
+// create Task
   Future<void> createTask(createTaskModel task) async {
-    final response = await http.post(
-        Uri.parse("http://10.0.2.2:3000/api/tasks"),
+    final response = await http.post(Uri.parse('${_baseUrl}tasks'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(task.toJson()));
     if (response.statusCode != 201) {
@@ -27,9 +28,9 @@ class TaskServices {
 
 // Task törlése ID alapján
   Future<void> deleteTask(int taskId) async {
-    final response = await http
-        .delete(Uri.parse("http://10.0.2.2:3000/api/deletetask/$taskId"));
-
+    final response = await http.delete(
+      Uri.parse('${_baseUrl}deletetask/$taskId'),
+    );
     if (response.statusCode != 200) {
       throw Exception('Failed to delete Task');
     }
@@ -38,11 +39,10 @@ class TaskServices {
   //update Task
   Future<void> updateTask(TaskModel task) async {
     final response = await http.put(
-      Uri.parse("http://10.0.2.2:3000/api/updatetasks/${task.id}"),
+      Uri.parse('${_baseUrl}updatetasks/${task.id}'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(task.toJson()),
     );
-
     if (response.statusCode != 200) {
       throw Exception('Failed to update task');
     }
